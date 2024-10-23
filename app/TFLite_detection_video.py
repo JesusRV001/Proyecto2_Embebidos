@@ -68,7 +68,7 @@ def tflite_detect_video(model_path, video_path, lbl_path, min_conf=0.7, output_p
 
                 # Label the object
                 object_name = labels[int(classes[i])]
-                label = f'{object_name}: {int(scores[i] * 100)}%'
+                label = f'Rock: {int(scores[i] * 100)}%'
                 label_size, baseline = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.7, 2)
                 label_ymin = max(ymin, label_size[1] + 10)
                 cv2.rectangle(frame_resized, (xmin, label_ymin - label_size[1] - 10), 
