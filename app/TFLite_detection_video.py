@@ -1,7 +1,7 @@
 import cv2
 import argparse
 import numpy as np
-from tensorflow.lite.python.interpreter import Interpreter
+from tflite_runtime.interpreter import Interpreter
 
 def tflite_detect_video(model_path, video_path, lbl_path, min_conf=0.7, output_path='output_video.mp4'):
     # Load the label map
