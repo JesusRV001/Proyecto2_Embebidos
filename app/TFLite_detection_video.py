@@ -1,4 +1,5 @@
 import cv2
+import argparse
 import numpy as np
 from tensorflow.lite.python.interpreter import Interpreter
 
@@ -18,9 +19,9 @@ def tflite_detect_video(model_path, video_path, lbl_path, min_conf=0.7, output_p
     width = input_details[0]['shape'][2]
 
     # Open the video file
-    #cap = cv2.VideoCapture(video_path)
+    cap = cv2.VideoCapture(video_path)
     # Use Webcam
-    cap = cv2.VideoCapture(0)
+    # cap = cv2.VideoCapture(0)
     
     # Get the video codec and create a VideoWriter object for the output video
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
@@ -91,6 +92,17 @@ def tflite_detect_video(model_path, video_path, lbl_path, min_conf=0.7, output_p
 
 # Example usage
 model_path = 'rock_detect.tflite'  # Path to your TFLite model
-video_path = 'rock_mars.mp4'     # Path to your input video
+#video_path = 'rock_mars.mp4'     # Path to your input video
 lbl_path = 'rock_label_map.pbtxt'             # Path to your labels file
-tflite_detect_video(model_path, video_path, lbl_path)
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser(description="TensorFlow Lite video detection")
+    parser.add_argument('--video_path', type=str, default=None, help="Path to the input video file")
+    parser.add_argument('--use_webcam', action='store_true', help="Use webcam instead of video file")
+
+    args = parser.parse_args()
+    
+    # Determine the source based on user input
+    video_source = 0 if args.use_webcam else args.video_path
+    tflite_detect_video(model_path, video_source, lbl_path)
+
